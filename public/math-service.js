@@ -28,7 +28,7 @@ const evaluateBoatResultVector = (initialAngle) => {
 
 // wyznacza rezultat podróży łódki:
 //   współrzędną punktu, do którego dopłynie łódź
-//   czas trwania podróży
+//   czas trwania podróży (docelowo w sekundach)
 //   odległość od punktu celu
 const evaluateBoatTripResults = (initialAngle) => {
   const {angle, length} = evaluateBoatResultVector(initialAngle);
