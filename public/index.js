@@ -4,7 +4,8 @@ const updateInputLabels = () => {
   onInputChange('input-river-speed');
   onInputChange('input-river-width');
   onInputChange('input-destination-location');
-  //TODO: moje suwaki
+  onInputChange('input-iterations');
+  onInputChange('input-agents');
 };
 
 const onInputChange = (inputId) => {
@@ -19,13 +20,16 @@ const getParams = () => {
   const riverSpeed = document.getElementById('input-river-speed').value;
   const riverWidth = document.getElementById('input-river-width').value;
   const destinationLocation = document.getElementById('input-destination-location').value;
+  const iterations = document.getElementById('input-iterations').value;
+  const agents = document.getElementById('input-agents').value;
   return ({
     boatInitialAngleInRadians: parseInt(boatInitialAngle) * Math.PI / 180,
     boatSpeed: parseInt(boatSpeed),
     riverSpeed: parseInt(riverSpeed),
     riverWidth: parseInt(riverWidth),
     destinationLocation: parseInt(destinationLocation),
-    //TODO: moje suwaki
+    iterations: parseInt(iterations),
+    agents: parseInt(agents),
   });
 };
 
