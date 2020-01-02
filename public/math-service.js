@@ -24,7 +24,6 @@ const evaluateBoatResultVector = (initialAngle) => {
         angle: Math.atan(-y / x),
         length: Math.sqrt(x * x + y * y),
     });
-    //TODO: współrzędna Y chyba źle
 };
 
 // wyznacza rezultat podróży łódki:
