@@ -4,6 +4,7 @@ const updateInputLabels = () => {
   onInputChange('input-river-speed');
   onInputChange('input-river-width');
   onInputChange('input-destination-location');
+  //TODO: moje suwaki
 };
 
 const onInputChange = (inputId) => {
@@ -24,6 +25,7 @@ const getParams = () => {
     riverSpeed: parseInt(riverSpeed),
     riverWidth: parseInt(riverWidth),
     destinationLocation: parseInt(destinationLocation),
+    //TODO: moje suwaki
   });
 };
 
