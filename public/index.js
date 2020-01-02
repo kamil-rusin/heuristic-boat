@@ -19,11 +19,11 @@ const getParams = () => {
   const riverWidth = document.getElementById('input-river-width').value;
   const destinationLocation = document.getElementById('input-destination-location').value;
   return ({
-    boatInitialAngle,
-    boatSpeed,
-    riverSpeed,
-    riverWidth,
-    destinationLocation,
+    boatInitialAngleInRadians: parseInt(boatInitialAngle) * Math.PI / 180,
+    boatSpeed: parseInt(boatSpeed),
+    riverSpeed: parseInt(riverSpeed),
+    riverWidth: parseInt(riverWidth),
+    destinationLocation: parseInt(destinationLocation),
   });
 };
 
