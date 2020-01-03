@@ -6,6 +6,7 @@ const updateInputLabels = () => {
   onInputChange('input-destination-location');
   onInputChange('input-iterations');
   onInputChange('input-agents');
+  onInputChange('input-neighborhood-factor');
 };
 
 const onInputChange = (inputId) => {
@@ -22,6 +23,7 @@ const getParams = () => {
   const destinationLocation = document.getElementById('input-destination-location').value;
   const iterations = document.getElementById('input-iterations').value;
   const agents = document.getElementById('input-agents').value;
+  const neighborhoodFactor = document.getElementById('input-neighborhood-factor').value;
   return ({
     boatInitialAngleInRadians: parseInt(boatInitialAngle) * Math.PI / 180,
     boatSpeed: parseInt(boatSpeed),
@@ -30,6 +32,7 @@ const getParams = () => {
     destinationLocation: parseInt(destinationLocation),
     iterations: parseInt(iterations),
     agents: parseInt(agents),
+    neighborhoodFactor: parseFloat(neighborhoodFactor),
   });
 };
 

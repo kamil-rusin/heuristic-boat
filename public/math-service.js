@@ -54,11 +54,55 @@ const objectiveFunction = (initialAngle) => {
   return evaluateBoatTripResults(initialAngle).distance;
 };
 
+//metoda na losowanie z przedziału(min= -factor, max = factor)
+const generateRandomNumber = (factor) => {
+    return (Math.random() * (Number(factor) + Number(factor)) - Number(factor));
+};
+
 // metoda algorytmu heurystycznego
 const evaluateOptimalBoatAngle = () => {
-  let m, n, o, p, q; // TODO: dodać suwaki na parametry algorytmu
+    const {iterations, agents, boatInitialAngleInRadians, neighborhoodFactor} = getParams();
+    let bestDistance, historyAngles = [], historyDistance = [], iter = 0, tempAngle, tempAgent,
+        tempDistance, forValue,
+        tempValue;
 
-  // TODO: algorytm heurystyczny
+    let bestAngle = boatInitialAngleInRadians;
 
-  return Math.random() * 180;
+    while (iter < iterations) {
+        bestDistance = objectiveFunction(bestAngle);
+
+        for (let i = 0; i < agents; i++) {
+            tempAgent = Number(bestAngle) + Number(generateRandomNumber(neighborhoodFactor));
+
+            //granice: 0 - 180 stopni
+            if (tempAgent > 3.14159265) {
+                tempAgent = 3.14159265;
+            } else if (tempAgent < 0) {
+                tempAgent = 0;
+            }
+
+            if (i === 0) {
+                forValue = objectiveFunction(tempAgent);
+            } else {
+                tempValue = objectiveFunction(tempAgent);
+                if (tempValue < forValue) {
+                    tempDistance = tempValue;
+                    tempAngle = tempAgent;
+                }
+            }
+        }
+
+        if (tempDistance < bestDistance) {
+            bestAngle = tempAngle;
+        }
+
+        historyAngles.push(bestAngle);
+        historyDistance.push(bestDistance);
+        iter++;
+    }
+
+    return ({
+        historyDistance: historyDistance,
+        historyAngles: historyAngles,
+    });
 };
