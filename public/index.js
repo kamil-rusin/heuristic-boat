@@ -25,13 +25,13 @@ const getParams = () => {
   const agents = document.getElementById('input-agents').value;
   const neighborhoodFactor = document.getElementById('input-neighborhood-factor').value;
   return ({
-    boatInitialAngleInRadians: parseInt(boatInitialAngle) * Math.PI / 180,
-    boatSpeed: parseInt(boatSpeed),
-    riverSpeed: parseInt(riverSpeed),
-    riverWidth: parseInt(riverWidth),
-    destinationLocation: parseInt(destinationLocation),
-    iterations: parseInt(iterations),
-    agents: parseInt(agents),
+    boatInitialAngleInRadians: parseFloat(boatInitialAngle) * Math.PI / 180,
+    boatSpeed: parseFloat(boatSpeed),
+    riverSpeed: parseFloat(riverSpeed),
+    riverWidth: parseFloat(riverWidth),
+    destinationLocation: parseFloat(destinationLocation),
+    iterations: parseFloat(iterations),
+    agents: parseFloat(agents),
     neighborhoodFactor: parseFloat(neighborhoodFactor),
   });
 };
