@@ -21,8 +21,8 @@ const evaluateBoatResultVector = (initialAngle) => {
   return ({
     x: resultX,
     y,
-    angle: Math.atan(-y / x),
-    length: Math.sqrt(x * x + y * y),
+    angle: Math.atan(-y / resultX),
+    length: Math.sqrt(resultX * resultX + y * y),
   });
 };
 
