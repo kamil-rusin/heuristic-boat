@@ -1,13 +1,21 @@
 # Heuristic boat
 
-Wizualizacja wyznaczania optymalnego kąta trasy łodzi. TODO
+Strona internetowa prezentująca rozwiązanie problemu optymalnej trasy łodzi przez rzekę w linii prostej. Użytkownik ma możliwość wyboru wielu parametrów zagadnienia. Optymalny kąt, pod jakim ma wypłynąć łódź, wyznaczany jest heurystycznie, a wyniki prezentowane są w animacji na ekranie.
 
 Autorzy: Bartłomiej Szlachta, Kamil Rusin, Kornel Fox
 
-##Proste Przeszukiwanie Lokalne
+## Opis zagadnienia
+
+TODO
+
+## Modelowanie matematyczne
+
+TODO
+
+## Algorytm heurystyczny
 
 ###Wprowadzenie
-Jest to proces iteracyjny, który przemieszcza się w przestrzeni od początkowego rozwiązania
+Wybranym algorytmem do rozwiązania problemu jest Proste Przeszukiwanie Lokalne - proces iteracyjny, który przemieszcza się w przestrzeni od początkowego rozwiązania
 do kolejnego według ustalonej reguły. Generuje on nowe rozwiązania randomistycznie, dokładniej
  mówiąc agenci w sąsiedztwie są generowane losowo według współczynnika sąsiedztwa. Każdy 
  start algorytmu po takiej samej liczbie kroków otrzymuje inny rezultat.
