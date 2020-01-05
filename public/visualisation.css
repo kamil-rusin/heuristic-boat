@@ -1,0 +1,48 @@
+main {
+  height: 100vh;
+  display: flex;
+}
+#section-inputs {
+  min-width: 280px;
+  flex: 1;
+  background: #ccc;
+}
+
+#section-visualisation {
+  display: flex;
+  flex: 3;
+  align-items: center;
+}
+#section-visualisation .river-container {
+  position: relative;
+  height: 620px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.river {
+  width: 100%;
+}
+
+.wave {
+  position: relative;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  animation-name: wave;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 20s;
+}
+
+@keyframes wave {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-1000px, 0, 0);
+  }
+}
