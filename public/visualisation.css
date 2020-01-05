@@ -15,14 +15,19 @@ main {
 }
 #section-visualisation .river-container {
   position: relative;
-  height: 620px;
-  width: 100%;
-  overflow: hidden;
+  height: 700px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 
 .river {
+    overflow: hidden;
+  position: relative;
   width: 100%;
 }
 
@@ -36,6 +41,10 @@ main {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-duration: 20s;
+}
+#flag-container{
+    height:32px;
+    width: 100%;
 }
 
 @keyframes wave {

@@ -82,15 +82,87 @@ const drawRiver = (riverWidth) => {
   }
   river.style.height = (50 + 30*(riverWidth-1)) + 'px';
   river.appendChild(riverFragment);
+  drawBoat();
+  drawDestinationPoint();
+}
+
+const drawBoat = () => {
+  const river = document.querySelector('.river');
+  const riverWidth = river.clientWidth;
+  const boat = document.createElement('div');
+
+  boat.style.height = 32 + "px";
+  boat.style.width = 32 + "px";
+  boat.style.backgroundImage = 'url("assets/sailboat32.png")';
+  boat.style.position = "absolute";
+  boat.style.left = riverWidth / 2 + "px";
+  boat.style.bottom = 0;
+  boat.style.transform = "rotate(-90deg)";
+
+  river.appendChild(boat);
+}
+
+const drawDestinationPoint = point => {
+  if (!point) {
+    const { destinationLocation } = getParams();
+    point = destinationLocation; 
+  }
+  const flagSize = 32;
+  const river = document.querySelector('.river');
+  const riverWidth = river.clientWidth;
+  const destinationPoint = document.createElement('div');
+  destinationPoint.id = "destinationPoint";
+  const existingDestinationPoint = document.getElementById('destinationPoint');
+
+  if (existingDestinationPoint) {
+    existingDestinationPoint.remove();
+  }
+  existingDestinationPoint ? existingDestinationPoint.remove : null;
+
+  const destinationLocationRange = 40;
+  const oneDestinationStepInPx = riverWidth / destinationLocationRange;
+  const stepsMap = new Map();
+  let nextStepInPx = 0;
+  const lowerDestinationRange = -20;
+  const upperDestinationRange = 20;
+
+  for (let i = lowerDestinationRange; i<=upperDestinationRange; i++){
+    let key = i.toString();
+    stepsMap.set(key, nextStepInPx.toFixed(2) - flagSize / 2 );
+    nextStepInPx += oneDestinationStepInPx;
+  }
+
+  const flagOffsetLeft = stepsMap.get(point.toString());
+
+  destinationPoint.style.height = flagSize + "px";
+  destinationPoint.style.width = flagSize + "px";
+  destinationPoint.style.position = "absolute";
+  destinationPoint.style.backgroundImage = 'url("assets/flag.png")';
+  destinationPoint.style.left = flagOffsetLeft + "px";
+
+  const flagContainer = document.getElementById('flag-container');
+  flagContainer.appendChild(destinationPoint);
+}
+
+const initRiver = () => {
+  const params = getParams();
+  const riverWidth = params.riverWidth;
+  drawRiver(riverWidth);
 }
 
 
 window.addEventListener('load', () => {
-  const params = getParams();
-  const riverWidth = params.riverWidth;
-  drawRiver(riverWidth);
-})
+  initRiver();
+});
 
-const onUpdateRiverWidth = (value) => {
+const onUpdateRiverWidth = value => {
   drawRiver(value)
 }
+
+const onUpdateDestinationLocation = value => {
+  drawDestinationPoint(value)
+}
+
+window.addEventListener('resize', () => {
+  initRiver();
+});
