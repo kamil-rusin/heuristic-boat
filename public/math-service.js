@@ -63,8 +63,9 @@ const generateRandomNumber = (factor) => {
 const evaluateOptimalBoatAngle = () => {
     const {iterations, agents, boatInitialAngleInRadians, neighborhoodFactor} = getParams();
     let bestDistance, historyAngles = [], historyDistance = [], iter = 0, tempAngle, tempAgent,
-        tempDistance, forValue,
-        tempValue;
+        tempDistance, forValue, tempValue,
+        factorInRadians = neighborhoodFactor*Math.PI/180;
+
 
     let bestAngle = boatInitialAngleInRadians;
 
@@ -72,11 +73,11 @@ const evaluateOptimalBoatAngle = () => {
         bestDistance = objectiveFunction(bestAngle);
 
         for (let i = 0; i < agents; i++) {
-            tempAgent = Number(bestAngle) + Number(generateRandomNumber(neighborhoodFactor));
+            tempAgent = Number(bestAngle) + Number(generateRandomNumber(factorInRadians));
 
-            //granice: 0 - 180 stopni
-            if (tempAgent > 3.14159265) {
-                tempAgent = 3.14159265;
+            //granice: 0 - 179 stopni
+            if (tempAgent > 3.12413936) {
+                tempAgent = 3.12413936;
             } else if (tempAgent < 0) {
                 tempAgent = 0;
             }
@@ -96,7 +97,7 @@ const evaluateOptimalBoatAngle = () => {
             bestAngle = tempAngle;
         }
 
-        historyAngles.push(bestAngle);
+        historyAngles.push((bestAngle*180/Math.PI).toFixed(2));
         historyDistance.push(bestDistance);
         iter++;
     }
@@ -104,5 +105,7 @@ const evaluateOptimalBoatAngle = () => {
     return ({
         historyDistance: historyDistance,
         historyAngles: historyAngles,
+        optimalAngle: historyAngles[iterations-1],
+        optimalDistance: historyDistance[iterations-1],
     });
 };
