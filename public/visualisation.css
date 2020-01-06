@@ -46,6 +46,18 @@ main {
   height: 32px;
   width: 100%;
 }
+#river-speed-vector {
+  position: absolute;
+  height: 48px;
+  width: 200px;
+  z-index: 99;
+  margin-top: 16px;
+  right: 0;
+
+}
+#river-speed-vector::after {
+  
+}
 
 @keyframes wave {
   0% {

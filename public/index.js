@@ -172,6 +172,7 @@ const updateRiverSpeedAnimation = value => {
   waves.forEach(wave => {
     wave.style.animationDuration = speedToAnimationDuration;
   });
+  updateRiverSpeedArrowWidth();
 }
 
 const updateBoatAngle = angle => {
@@ -181,6 +182,20 @@ const updateBoatAngle = angle => {
   const boat = document.getElementById('boat');
   parseInt(angle) < 90 ?
     boat.style.transform = "scale(-1, 1) " + `rotate(-${angle}deg)` : boat.style.transform = "scale(-1, -1) " + `rotate(${angle}deg)`;
+}
+
+const updateRiverSpeedArrowWidth = speed => {
+  if (!speed) {
+    const {riverSpeed} = getParams();
+    speed = riverSpeed;
+  }
+  const arrow = document.getElementById('river-speed-vector');
+  let minWidth = 24;
+  let newWidth = minWidth + (+speed * 60) + "px"
+  if (newWidth === "24px") {
+    newWidth = 0;
+  }
+  arrow.style.width = newWidth;
 }
 
 
@@ -205,6 +220,7 @@ const onUpdateDestinationLocation = value => {
 
 const onUpdateRiverSpeed = value => {
   updateRiverSpeedAnimation(value);
+  updateRiverSpeedArrowWidth(value);
 }
 
 const onUpdateBoatInitialRange = value => {
