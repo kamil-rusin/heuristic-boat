@@ -91,6 +91,7 @@ const drawBoat = () => {
   const river = document.querySelector('.river');
   const riverWidth = river.clientWidth;
   const boat = document.createElement('div');
+  boat.id="boat"
 
   boat.style.height = 32 + "px";
   boat.style.width = 32 + "px";
@@ -98,9 +99,8 @@ const drawBoat = () => {
   boat.style.position = "absolute";
   boat.style.left = riverWidth / 2 + "px";
   boat.style.bottom = 0;
-  boat.style.transform = "rotate(-90deg)";
-
   river.appendChild(boat);
+  updateBoatAngle();
 }
 
 const drawDestinationPoint = point => {
@@ -174,6 +174,15 @@ const updateRiverSpeedAnimation = value => {
   });
 }
 
+const updateBoatAngle = angle => {
+  if (!angle){
+    angle = document.getElementById('input-boat-initial-angle').value;
+  }
+  const boat = document.getElementById('boat');
+  parseInt(angle) < 90 ?
+    boat.style.transform = "scale(-1, 1) " + `rotate(-${angle}deg)` : boat.style.transform = "scale(-1, -1) " + `rotate(${angle}deg)`;
+}
+
 
 const initRiver = () => {
   const params = getParams();
@@ -187,15 +196,19 @@ window.addEventListener('load', () => {
 });
 
 const onUpdateRiverWidth = value => {
-  drawRiver(value)
+  drawRiver(value);
 }
 
 const onUpdateDestinationLocation = value => {
-  drawDestinationPoint(value)
+  drawDestinationPoint(value);
 }
 
 const onUpdateRiverSpeed = value => {
   updateRiverSpeedAnimation(value);
+}
+
+const onUpdateBoatInitialRange = value => {
+  updateBoatAngle(value);
 }
 
 window.addEventListener('resize', () => {
