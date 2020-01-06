@@ -36,7 +36,7 @@
       River speed: <span id="span-river-speed">0</span> m/s
       <br>
       <input id="input-river-speed" type="range" value="2" min="0" max="5" step="0.1"
-        oninput="onInputChange('input-river-speed')">
+        oninput="onInputChange('input-river-speed')" onchange="onUpdateRiverSpeed(this.value)">
     </label>
     <br>
     <br>

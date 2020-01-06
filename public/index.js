@@ -84,6 +84,7 @@ const drawRiver = (riverWidth) => {
   river.appendChild(riverFragment);
   drawBoat();
   drawDestinationPoint();
+  updateRiverSpeedAnimation();
 }
 
 const drawBoat = () => {
@@ -144,6 +145,36 @@ const drawDestinationPoint = point => {
   flagContainer.appendChild(destinationPoint);
 }
 
+const updateRiverSpeedAnimation = value => {
+   if (!value){
+     const { riverSpeed } = getParams();
+     value = riverSpeed.toFixed(1);
+   }
+  const waves = document.querySelectorAll('.wave');
+  const animationDurationSpeedMap = new Map();
+  let theSlowestDuration = 21;
+
+  for (let i = 0; i <= 5; i += 0.1){
+    let key = i.toFixed(1);
+    
+    if (i === 0) {
+      animationDurationSpeedMap.set(key, "0s");
+    }
+    else {
+      animationDurationSpeedMap.set(key, theSlowestDuration.toFixed(1) + "s");
+    }
+    theSlowestDuration -= .4;
+    theSlowestDuration.toFixed(1);
+  }
+  const speed = parseFloat(value).toFixed(1);
+  const speedToAnimationDuration = animationDurationSpeedMap.get(speed);
+
+  waves.forEach(wave => {
+    wave.style.animationDuration = speedToAnimationDuration;
+  });
+}
+
+
 const initRiver = () => {
   const params = getParams();
   const riverWidth = params.riverWidth;
@@ -161,6 +192,10 @@ const onUpdateRiverWidth = value => {
 
 const onUpdateDestinationLocation = value => {
   drawDestinationPoint(value)
+}
+
+const onUpdateRiverSpeed = value => {
+  updateRiverSpeedAnimation(value);
 }
 
 window.addEventListener('resize', () => {

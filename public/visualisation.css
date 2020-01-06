@@ -26,7 +26,7 @@ main {
 }
 
 .river {
-    overflow: hidden;
+  overflow: hidden;
   position: relative;
   width: 100%;
 }
@@ -40,11 +40,11 @@ main {
   animation-name: wave;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  animation-duration: 20s;
+
 }
-#flag-container{
-    height:32px;
-    width: 100%;
+#flag-container {
+  height: 32px;
+  width: 100%;
 }
 
 @keyframes wave {
