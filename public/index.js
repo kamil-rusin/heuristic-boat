@@ -205,28 +205,27 @@ const initRiver = () => {
   drawRiver(riverWidth);
 }
 
-
-window.addEventListener('load', () => {
-  initRiver();
-});
-
-const onUpdateRiverWidth = value => {
-  drawRiver(value);
-}
-
-const onUpdateDestinationLocation = value => {
-  drawDestinationPoint(value);
-}
-
-const onUpdateRiverSpeed = value => {
-  updateRiverSpeedAnimation(value);
-  updateRiverSpeedArrowWidth(value);
-}
-
 const onUpdateBoatInitialRange = value => {
   updateBoatAngle(value);
 }
 
+window.addEventListener('load', () => {
+  initRiver();
+  document.getElementById('input-river-speed').addEventListener('input', (event) => {
+    updateRiverSpeedAnimation(event.target.value);
+    updateRiverSpeedArrowWidth(event.target.value);
+  });
+
+  document.getElementById('input-river-width').addEventListener('input', (event) => {
+    drawRiver(event.target.value);
+  });
+  document.getElementById('input-destination-location').addEventListener('input', (event) => {
+    drawDestinationPoint(event.target.value);
+  });
+  document.getElementById('input-boat-initial-angle').addEventListener('input', (event) => {
+    updateBoatAngle(event.target.value);
+  });
+});
 window.addEventListener('resize', () => {
   initRiver();
 });

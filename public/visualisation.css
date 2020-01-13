@@ -55,9 +55,6 @@ main {
   right: 0;
 
 }
-#river-speed-vector::after {
-  
-}
 
 @keyframes wave {
   0% {
