@@ -205,10 +205,6 @@ const initRiver = () => {
   drawRiver(riverWidth);
 }
 
-const onUpdateBoatInitialRange = value => {
-  updateBoatAngle(value);
-}
-
 window.addEventListener('load', () => {
   initRiver();
   document.getElementById('input-river-speed').addEventListener('input', (event) => {
