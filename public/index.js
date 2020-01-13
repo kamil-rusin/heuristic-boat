@@ -80,7 +80,7 @@ const drawRiver = (riverWidth) => {
     riverFragment.appendChild(wave);
 
   }
-  river.style.height = (50 + 30*(riverWidth-1)) + 'px';
+  river.style.height = (50 + 30 * (riverWidth - 1)) + 'px';
   river.appendChild(riverFragment);
   drawBoat();
   drawDestinationPoint();
@@ -91,13 +91,13 @@ const drawBoat = () => {
   const river = document.querySelector('.river');
   const riverWidth = river.clientWidth;
   const boat = document.createElement('div');
-  boat.id="boat"
+  boat.id = "boat"
 
   boat.style.height = 32 + "px";
   boat.style.width = 32 + "px";
   boat.style.backgroundImage = 'url("assets/sailboat32.png")';
   boat.style.position = "absolute";
-  boat.style.left = riverWidth / 2 + "px";
+  boat.style.left = (riverWidth / 2) - 16 + "px";
   boat.style.bottom = 0;
   river.appendChild(boat);
   updateBoatAngle();
@@ -106,7 +106,7 @@ const drawBoat = () => {
 const drawDestinationPoint = point => {
   if (!point) {
     const { destinationLocation } = getParams();
-    point = destinationLocation; 
+    point = destinationLocation;
   }
   const flagSize = 32;
   const river = document.querySelector('.river');
@@ -127,9 +127,9 @@ const drawDestinationPoint = point => {
   const lowerDestinationRange = -20;
   const upperDestinationRange = 20;
 
-  for (let i = lowerDestinationRange; i<=upperDestinationRange; i++){
+  for (let i = lowerDestinationRange; i <= upperDestinationRange; i++) {
     let key = i.toString();
-    stepsMap.set(key, nextStepInPx.toFixed(2) - flagSize / 2 );
+    stepsMap.set(key, nextStepInPx.toFixed(2) - flagSize / 2);
     nextStepInPx += oneDestinationStepInPx;
   }
 
@@ -146,17 +146,17 @@ const drawDestinationPoint = point => {
 }
 
 const updateRiverSpeedAnimation = value => {
-   if (!value){
-     const { riverSpeed } = getParams();
-     value = riverSpeed.toFixed(1);
-   }
+  if (!value) {
+    const { riverSpeed } = getParams();
+    value = riverSpeed.toFixed(1);
+  }
   const waves = document.querySelectorAll('.wave');
   const animationDurationSpeedMap = new Map();
   let theSlowestDuration = 21;
 
-  for (let i = 0; i <= 5; i += 0.1){
+  for (let i = 0; i <= 5; i += 0.1) {
     let key = i.toFixed(1);
-    
+
     if (i === 0) {
       animationDurationSpeedMap.set(key, "0s");
     }
@@ -176,7 +176,7 @@ const updateRiverSpeedAnimation = value => {
 }
 
 const updateBoatAngle = angle => {
-  if (!angle){
+  if (!angle) {
     angle = document.getElementById('input-boat-initial-angle').value;
   }
   const boat = document.getElementById('boat');
@@ -186,7 +186,7 @@ const updateBoatAngle = angle => {
 
 const updateRiverSpeedArrowWidth = speed => {
   if (!speed) {
-    const {riverSpeed} = getParams();
+    const { riverSpeed } = getParams();
     speed = riverSpeed;
   }
   const arrow = document.getElementById('river-speed-vector');
@@ -197,7 +197,6 @@ const updateRiverSpeedArrowWidth = speed => {
   }
   arrow.style.width = newWidth;
 }
-
 
 const initRiver = () => {
   const params = getParams();
@@ -221,7 +220,81 @@ window.addEventListener('load', () => {
   document.getElementById('input-boat-initial-angle').addEventListener('input', (event) => {
     updateBoatAngle(event.target.value);
   });
+  document.getElementById('run-algorithm-button').addEventListener('click', () => {
+    startBoatAnimations();
+  });
 });
+
+const startBoatAnimations = () => {
+  let boatFinalDestinations = evaluateOptimalBoatAngle(getParams().initialAngleInRadians).historyAngles.map((angle) => {
+    const { location, duration } = evaluateBoatTripResults(angle);
+    return { location, duration };
+  });
+  const { historyAngles } = evaluateOptimalBoatAngle();
+  console.log(historyAngles)
+  console.log(boatFinalDestinations);
+  const boat = document.getElementById('boat');
+
+  const numberOfIterations = getParams().iterations;
+
+  let i = 0;
+  let nextTimeout = 500 // 0.5s
+  const riverMiddlePoint = document.querySelector('.river').clientWidth / 2;
+  let destinationPointOffsetLeft = document.getElementById("destinationPoint").style.left;
+  destinationPointOffsetLeft = parseFloat(destinationPointOffsetLeft.slice(0, destinationPointOffsetLeft.length - 2));
+  console.log(destinationPointOffsetLeft);
+  const destinationLocationRange = 40;
+  const riverWidth = document.querySelector('.river').clientWidth;
+  const oneDestinationStepInPx = riverWidth / destinationLocationRange;
+
+  function runBoatAnimations() {
+    setTimeout(() => {
+      let animationDuration = parseFloat(boatFinalDestinations[i].duration.toFixed(2));
+      let boatEndPointOffset = boatFinalDestinations[i].location * oneDestinationStepInPx;
+      let boatEndPoint
+      if (boatFinalDestinations[i].location < 0) {
+        boatEndPoint = riverMiddlePoint - destinationPointOffsetLeft - 16 //// - 16 to include the half of boat width
+        boatEndPoint = -boatEndPoint;
+      }
+      else {
+        boatEndPoint = destinationPointOffsetLeft - riverMiddlePoint + 16; // + 16 to include the half of boat width
+      }
+      boatEndPoint += boatEndPointOffset;
+
+      let angle = parseFloat(historyAngles[i]);
+      let roateBoat;
+      parseInt(angle) < 90 ?
+      roateBoat = "scale(-1, 1) " + `rotate(-${angle}deg)` : roateBoat = "scale(-1, -1) " + `rotate(${angle}deg)`;
+
+      console.log(boatEndPoint)
+      boat.animate([
+        { transform: 'translate3d(0,0,0) ' + roateBoat },
+        { transform: `translate3d(${boatEndPoint.toFixed(2)}px, -288px, 0)` + roateBoat }
+      ], {
+        duration: animationDuration * 1000,
+        iterations: 1
+      })
+      nextTimeout = animationDuration * 1000;
+      drawBoatEndPoint(boatEndPoint, i);
+      i++;
+      if (i < numberOfIterations) {
+        runBoatAnimations();
+      }
+    }, nextTimeout)
+  }
+  runBoatAnimations();
+}
+
+const drawBoatEndPoint = (point, i) => {
+  const riverMiddlePoint = document.querySelector('.river').clientWidth / 2;
+  const flagContainer = document.getElementById('flag-container');
+  const destinationPointOfIteration = document.createElement('div');
+  destinationPointOfIteration.classList.add('destination-point-of-iteration');
+  destinationPointOfIteration.style.left = riverMiddlePoint + point + "px";
+  destinationPointOfIteration.innerHTML = ++i;
+  flagContainer.appendChild(destinationPointOfIteration);
+}
+
 window.addEventListener('resize', () => {
   initRiver();
 });

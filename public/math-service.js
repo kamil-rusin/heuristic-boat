@@ -101,11 +101,6 @@ const evaluateOptimalBoatAngle = () => {
         historyDistance.push(bestDistance);
         iter++;
     }
-    console.log("history distance: ", historyDistance)
-    console.log("historyAngles: ", historyAngles)
-    console.log("optimalAngle: ", historyAngles[iterations-1])
-    console.log("optimalDistance: ", historyDistance[iterations-1])
-
     return ({
         historyDistance: historyDistance,
         historyAngles: historyAngles,
