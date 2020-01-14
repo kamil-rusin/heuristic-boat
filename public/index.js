@@ -239,9 +239,7 @@ const startBoatAnimations = () => {
     })
   }
   let boatFinalDestinations = mapAnglesToDestinations(evaluateOptimalBoatAngle().historyAngles);
-  const { historyAngles } = evaluateOptimalBoatAngle();
-  console.log(historyAngles)
-  console.log(boatFinalDestinations);
+  const { historyAngles, historyDistance, optimalAngle, optimalDistance } = evaluateOptimalBoatAngle();
   const boat = document.getElementById('boat');
 
   const numberOfIterations = getParams().iterations;
@@ -251,7 +249,6 @@ const startBoatAnimations = () => {
   const riverMiddlePoint = document.querySelector('.river').clientWidth / 2;
   let destinationPointOffsetLeft = document.getElementById("destinationPoint").style.left;
   destinationPointOffsetLeft = parseFloat(destinationPointOffsetLeft.slice(0, destinationPointOffsetLeft.length - 2));
-  console.log(destinationPointOffsetLeft);
   const destinationLocationRange = 40;
   const riverWidth = document.querySelector('.river').clientWidth;
   const oneDestinationStepInPx = riverWidth / destinationLocationRange;
@@ -274,8 +271,6 @@ const startBoatAnimations = () => {
       let roateBoat;
       parseInt(angle) < 90 ?
       roateBoat = "scale(-1, 1) " + `rotate(-${angle}deg)` : roateBoat = "scale(-1, -1) " + `rotate(${angle}deg)`;
-
-      console.log(boatEndPoint)
       boat.animate([
         { transform: 'translate3d(0,0,0) ' + roateBoat },
         { transform: `translate3d(${boatEndPoint.toFixed(2)}px, -288px, 0)` + roateBoat }
@@ -288,6 +283,10 @@ const startBoatAnimations = () => {
       i++;
       if (i < numberOfIterations) {
         runBoatAnimations();
+      }
+      else {
+        document.getElementById('results').innerHTML = ""
+        document.getElementById('results').innerHTML = "<h1 style='margin-top: 16px; text-align:center; text-transform: uppercase; color: red '>Results</h1> " + `<p>Optimal distance: <span style='color: red;'>${optimalDistance} meters, </span><br> Optimal angle: <span style='color: red'>${optimalAngle} degree</span></p>`;
       }
     }, nextTimeout)
   }
