@@ -1,4 +1,4 @@
-let wasAlgorithmFired = false;
+let wasAlgorithmFired;
 
 const updateInputLabels = () => {
   onInputChange('input-boat-initial-angle');
@@ -228,7 +228,9 @@ window.addEventListener('load', () => {
 });
 
 const startBoatAnimations = () => {
-  wasAlgorithmFired = true;
+  if(wasAlgorithmFired) {
+    clearTimeout(wasAlgorithmFired);
+  }
 
   const previousDestinationPoints = document.querySelectorAll('.destination-point-of-iteration');
   if (previousDestinationPoints.length) {
@@ -255,7 +257,7 @@ const startBoatAnimations = () => {
   const oneDestinationStepInPx = riverWidth / destinationLocationRange;
 
   function runBoatAnimations() {
-    setTimeout(() => {
+    wasAlgorithmFired = setTimeout(() => {
       let animationDuration = parseFloat(boatFinalDestinations[i].duration.toFixed(2));
       let boatEndPointOffset = boatFinalDestinations[i].location * oneDestinationStepInPx;
       let boatEndPoint
