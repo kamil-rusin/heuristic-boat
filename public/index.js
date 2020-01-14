@@ -85,6 +85,7 @@ const drawRiver = (riverWidth) => {
   river.style.height = (50 + 30 * (riverWidth - 1)) + 'px';
   river.appendChild(riverFragment);
   drawBoat();
+  drawBoatVector();
   drawDestinationPoint();
   updateRiverSpeedAnimation();
 }
@@ -101,6 +102,7 @@ const drawBoat = () => {
   boat.style.position = "absolute";
   boat.style.left = (riverWidth / 2) - 16 + "px";
   boat.style.bottom = 0;
+  boat.style.zIndex = 2;
   river.appendChild(boat);
   updateBoatAngle();
 }
@@ -184,6 +186,7 @@ const updateBoatAngle = angle => {
   const boat = document.getElementById('boat');
   parseInt(angle) < 90 ?
     boat.style.transform = "scale(-1, 1) " + `rotate(-${angle}deg)` : boat.style.transform = "scale(-1, -1) " + `rotate(${angle}deg)`;
+    //drawBoatVector();
 }
 
 const updateRiverSpeedArrowWidth = speed => {
@@ -221,6 +224,9 @@ window.addEventListener('load', () => {
   });
   document.getElementById('input-boat-initial-angle').addEventListener('input', (event) => {
     updateBoatAngle(event.target.value);
+  });
+  document.getElementById('input-boat-speed').addEventListener('input', (event) => {
+    updateVectorLength(event.target.value);
   });
   document.getElementById('run-algorithm-button').addEventListener('click', () => {
     startBoatAnimations();
@@ -295,8 +301,6 @@ const startBoatAnimations = () => {
 }
 
 const drawBoatEndPoint = (point, i) => {
-
-
   const riverMiddlePoint = document.querySelector('.river').clientWidth / 2;
   const flagContainer = document.getElementById('flag-container');
   const destinationPointOfIteration = document.createElement('div');
@@ -304,6 +308,44 @@ const drawBoatEndPoint = (point, i) => {
   destinationPointOfIteration.style.left = riverMiddlePoint + point - 16 + "px";
   destinationPointOfIteration.innerHTML = ++i;
   flagContainer.appendChild(destinationPointOfIteration);
+}
+
+const drawBoatVector = () => {
+  let arrowLength;
+  const boatSpeed = getParams().boatSpeed;
+  if (boatSpeed == 1) {
+    arrowLength = 32;
+  }
+  else {
+    arrowLength = 32 + boatSpeed*10 *0.5;
+  }
+  const river = document.querySelector('.river');
+  const riverWidth = river.clientWidth;
+  const boatVector = document.createElement('img');
+  boatVector.src = "assets/arrow.png"
+  boatVector.id = "boat-vector";
+  boatVector.classList.add = "boat-vector";
+  boatVector.style.height = 32 + "px";
+  boatVector.style.left = (riverWidth / 2) - 4 + "px";
+  boatVector.style.width = arrowLength + "px";
+  boatVector.style.backgroundRepeat = "no-repeat";
+  boatVector.style.paddingLeft = "32px";
+  boatVector.style.bottom = 0;
+  boatVector.style.zIndex = 1;
+  boat.appendChild(boatVector);
+}
+
+const updateVectorLength = boatSpeed => {
+  let arrowLength;
+  if (boatSpeed == 1) {
+    arrowLength = 32;
+  }
+  else {
+    arrowLength = 32 + boatSpeed*10 *0.5;
+  }
+  console.log(arrowLength)
+  const boatVector = document.getElementById('boat-vector');
+  boatVector.style.width = arrowLength + "px";
 }
 
 window.addEventListener('resize', () => {
