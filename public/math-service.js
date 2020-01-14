@@ -1,12 +1,12 @@
 // wyznacza wektor łodzi bez uwzględnienia prądu rzeki:
 //   współrzędną X
 //   współrzędną Y
-const evaluateBoatDesireVector = (initialAngle) => {
+const evaluateBoatDesireVector = (angle) => {
   const {boatSpeed} = getParams();
-  return ({
-    x: -boatSpeed * Math.cos(initialAngle),
-    y: boatSpeed * Math.sin(initialAngle),
-  });
+  const x = -boatSpeed * Math.cos(angle);
+  const y = boatSpeed * Math.sin(angle);
+  const length = Math.sqrt(x * x + y * y);
+  return {x, y, angle, length};
 };
 
 // wyznacza wynikowy wektor łodzi, uwzględniając prąd rzeki:
@@ -30,8 +30,10 @@ const evaluateBoatResultVector = (initialAngle) => {
 //   współrzędną punktu, do którego dopłynie łódź
 //   czas trwania podróży (docelowo w sekundach)
 //   odległość od punktu celu
-const evaluateBoatTripResults = (initialAngle) => {
-  const {angle, length} = evaluateBoatResultVector(initialAngle);
+const evaluateBoatTripResults = (initialAngle, ignoreRiver) => {
+  const {angle, length} = ignoreRiver
+    ? evaluateBoatDesireVector(initialAngle)
+    : evaluateBoatResultVector(initialAngle);
   const betaAngle = Math.abs((Math.PI / 2) - angle);
   const {destinationLocation, riverWidth} = getParams();
 
@@ -107,4 +109,12 @@ const evaluateOptimalBoatAngle = () => {
         optimalAngle: historyAngles[iterations-1],
         optimalDistance: historyDistance[iterations-1],
     });
+};
+
+const getLocationsHistory = () => {
+  const {historyAngles} = evaluateOptimalBoatAngle();
+  return historyAngles.map((angle) => {
+    const {location, duration} = evaluateBoatTripResults(angle, true);
+    return {location, duration};
+  });
 };

@@ -226,10 +226,7 @@ window.addEventListener('load', () => {
 });
 
 const startBoatAnimations = () => {
-  let boatFinalDestinations = evaluateOptimalBoatAngle(getParams().initialAngleInRadians).historyAngles.map((angle) => {
-    const { location, duration } = evaluateBoatTripResults(angle);
-    return { location, duration };
-  });
+  let boatFinalDestinations = getLocationsHistory();
   const { historyAngles } = evaluateOptimalBoatAngle();
   console.log(historyAngles)
   console.log(boatFinalDestinations);
