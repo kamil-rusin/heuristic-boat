@@ -195,14 +195,8 @@ const updateRiverSpeedArrowWidth = speed => {
     speed = riverSpeed;
   }
   const arrow = document.getElementById('river-speed-vector');
-  let minWidth = 24;
-  let newWidth = minWidth + (+speed * 60) + "px"
-  if (newWidth === "24px") {
-    newWidth = 0;
+  arrow.style.width = speed * 15 + "px" ;
   }
-  arrow.style.width = newWidth;
-}
-
 const initRiver = () => {
   const params = getParams();
   const riverWidth = params.riverWidth;
@@ -313,12 +307,9 @@ const drawBoatEndPoint = (point, i) => {
 const drawBoatVector = () => {
   let arrowLength;
   const boatSpeed = getParams().boatSpeed;
-  if (boatSpeed == 1) {
-    arrowLength = 32;
-  }
-  else {
-    arrowLength = 32 + boatSpeed*10 *0.5;
-  }
+
+  arrowLength = boatSpeed*15;
+ 
   const river = document.querySelector('.river');
   const riverWidth = river.clientWidth;
   const boatVector = document.createElement('img');
@@ -337,13 +328,7 @@ const drawBoatVector = () => {
 
 const updateVectorLength = boatSpeed => {
   let arrowLength;
-  if (boatSpeed == 1) {
-    arrowLength = 32;
-  }
-  else {
-    arrowLength = 32 + boatSpeed*10 *0.5;
-  }
-  console.log(arrowLength)
+  arrowLength = boatSpeed * 15;
   const boatVector = document.getElementById('boat-vector');
   boatVector.style.width = arrowLength + "px";
 }
