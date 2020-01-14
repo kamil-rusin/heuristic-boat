@@ -4,6 +4,10 @@ Strona internetowa prezentująca rozwiązanie problemu optymalnej trasy łodzi p
 
 Autorzy: Bartłomiej Szlachta, Kamil Rusin, Kornel Fox
 
+## Uruchamianie
+
+Aby uruchomić stronę internetową, należy posiadać wszystkie pliki z folderu `public` w jednym folderze oraz otworzyć plik `index.html` w przeglądarce.
+
 ## Opis zagadnienia
 
 Celem łodzi jest dotarcie do wybranego punktu na przeciwległym brzegu rzeki, pokonując prąd rzeki. Aby tego dokonać, należy wybrać optymalny kąt początkowy kierunku łodzi względem brzegu - taki kąt, który zapewni osiągnięcie tego celu.
