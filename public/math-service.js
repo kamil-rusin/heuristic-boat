@@ -108,3 +108,9 @@ const evaluateOptimalBoatAngle = () => {
         optimalDistance: historyDistance[iterations-1],
     });
 };
+
+const mapAnglesToDestinations = (anglesInDegreesArray) => anglesInDegreesArray.map((angleInDegree) => {
+  const angleInRadians = angleInDegree * Math.PI / 180;
+  const {location, duration} = evaluateBoatTripResults(angleInRadians);
+  return {location, duration};
+});
