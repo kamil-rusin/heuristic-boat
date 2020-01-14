@@ -1,3 +1,5 @@
+let wasAlgorithmFired = false;
+
 const updateInputLabels = () => {
   onInputChange('input-boat-initial-angle');
   onInputChange('input-boat-speed');
@@ -226,6 +228,14 @@ window.addEventListener('load', () => {
 });
 
 const startBoatAnimations = () => {
+  wasAlgorithmFired = true;
+
+  const previousDestinationPoints = document.querySelectorAll('.destination-point-of-iteration');
+  if (previousDestinationPoints.length) {
+    previousDestinationPoints.forEach(element => {
+      element.remove()
+    })
+  }
   let boatFinalDestinations = mapAnglesToDestinations(evaluateOptimalBoatAngle().historyAngles);
   const { historyAngles } = evaluateOptimalBoatAngle();
   console.log(historyAngles)
@@ -283,11 +293,13 @@ const startBoatAnimations = () => {
 }
 
 const drawBoatEndPoint = (point, i) => {
+
+
   const riverMiddlePoint = document.querySelector('.river').clientWidth / 2;
   const flagContainer = document.getElementById('flag-container');
   const destinationPointOfIteration = document.createElement('div');
   destinationPointOfIteration.classList.add('destination-point-of-iteration');
-  destinationPointOfIteration.style.left = riverMiddlePoint + point + "px";
+  destinationPointOfIteration.style.left = riverMiddlePoint + point - 16 + "px";
   destinationPointOfIteration.innerHTML = ++i;
   flagContainer.appendChild(destinationPointOfIteration);
 }
