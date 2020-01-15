@@ -6,7 +6,7 @@ Autorzy: Bartłomiej Szlachta, Kamil Rusin, Kornel Fox
 
 ## Uruchamianie
 
-Aby uruchomić stronę internetową, należy posiadać wszystkie pliki z folderu `public` w jednym folderze oraz otworzyć plik `index.html` w przeglądarce.
+Aby uruchomić stronę internetową, należy otworzyć plik `public/index.html` w przeglądarce.
 
 ## Opis zagadnienia
 
