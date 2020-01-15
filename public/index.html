@@ -1,127 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <link rel="icon" href="favicon.ico"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="theme-color" content="#033dfc"/>
+  <meta charset="utf-8" />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" type="text/css" href="visualisation.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#033dfc" />
   <title>Heuristic boat</title>
 </head>
+
 <body>
-
-<section id="section-inputs">
-  <label>
-    Boat initial range: <span id="span-boat-initial-angle">0</span> degree
+<main>
+  <section id="section-inputs">
+    <label>
+      Boat initial range: <span id="span-boat-initial-angle">0</span> degree
+      <br>
+      <input id="input-boat-initial-angle" type="range" value="90" min="1" max="179" step="1"
+        oninput="onInputChange('input-boat-initial-angle')">
+    </label>
     <br>
-    <input
-      id="input-boat-initial-angle"
-      type="range"
-      value="90"
-      min="1"
-      max="179"
-      step="1"
-      oninput="onInputChange('input-boat-initial-angle')"
-    >
-  </label>
-  <br>
-  <br>
-
-  <label>
-    Boat speed: <span id="span-boat-speed">0</span> m/s
     <br>
-    <input
-      id="input-boat-speed"
-      type="range"
-      value="4"
-      min="1"
-      max="20"
-      step="0.1"
-      oninput="onInputChange('input-boat-speed')"
-    >
-  </label>
-  <br>
-  <br>
 
-  <label>
-    River speed: <span id="span-river-speed">0</span> m/s
+    <label>
+      Boat speed: <span id="span-boat-speed">0</span> m/s
+      <br>
+      <input id="input-boat-speed" type="range" value="4" min="1" max="20" step="0.1"
+        oninput="onInputChange('input-boat-speed')">
+    </label>
     <br>
-    <input
-      id="input-river-speed"
-      type="range"
-      value="2"
-      min="0"
-      max="5"
-      step="0.1"
-      oninput="onInputChange('input-river-speed')"
-    >
-  </label>
-  <br>
-  <br>
-
-  <label>
-    River width: <span id="span-river-width">0</span> m
     <br>
-    <input
-      id="input-river-width"
-      type="range"
-      value="10"
-      min="1"
-      max="20"
-      step="1"
-      oninput="onInputChange('input-river-width')"
-    >
-  </label>
-  <br>
-  <br>
 
-  <label>
-    Destination location: <span id="span-destination-location">0</span> m
+    <label>
+      River speed: <span id="span-river-speed">0</span> m/s
+      <br>
+      <input id="input-river-speed" type="range" value="2" min="0" max="5" step="0.1"
+        oninput="onInputChange('input-river-speed')">
+    </label>
     <br>
-    <input
-      id="input-destination-location"
-      type="range"
-      value="0"
-      min="-20"
-      max="20"
-      step="1"
-      oninput="onInputChange('input-destination-location')"
-    >
-  </label>
-  <br>
-  <br>
-
-  <label>
-    Amount of iterations: <span id="span-iterations">0</span>
     <br>
-    <input
-            id="input-iterations"
-            type="range"
-            value="10"
-            min="1"
-            max="50"
-            step="1"
-            oninput="onInputChange('input-iterations')"
-    >
-  </label>
-  <br>
-  <br>
 
-  <label>
-    Amount of agents: <span id="span-agents">0</span>
+    <label>
+      River width: <span id="span-river-width">0</span> m
+      <br>
+      <input id="input-river-width" type="range" value="10" min="1" max="20" step="1"
+        oninput="onInputChange('input-river-width')">
+    </label>
     <br>
-    <input
-            id="input-agents"
-            type="range"
-            value="10"
-            min="1"
-            max="50"
-            step="1"
-            oninput="onInputChange('input-agents')"
-    >
-  </label>
+    <br>
 
-  <br>
-  <br>
+    <label>
+      Destination location: <span id="span-destination-location">0</span> m
+      <br>
+      <input id="input-destination-location" type="range" value="0" min="-20" max="20" step="1"
+        oninput="onInputChange('input-destination-location')">
+    </label>
+    <br>
+    <br>
+
+    <label>
+      Amount of iterations: <span id="span-iterations">0</span>
+      <br>
+      <input id="input-iterations" type="range" value="10" min="1" max="50" step="1"
+        oninput="onInputChange('input-iterations')">
+    </label>
+    <br>
+    <br>
+
+    <label>
+      Amount of agents: <span id="span-agents">0</span>
+      <br>
+      <input id="input-agents" type="range" value="10" min="1" max="50" step="1"
+        oninput="onInputChange('input-agents')">
+    </label>
+
+    <br>
+    <br>
 
   <label>
     Neighborhood factor (in degrees): <span id="span-neighborhood-factor">0</span>
@@ -135,14 +90,23 @@
             step="1"
             oninput="onInputChange('input-neighborhood-factor')"
     >
+    <br>
+    <button id="run-algorithm-button">Run algorithm</button>
   </label>
+  <div class="results" id="results"></div>
 </section>
 
-<section id="section-visualisation">
-
-</section>
-
-<script type="text/javascript" src="index.js"></script>
-<script type="text/javascript" src="math-service.js"></script>
+  <section id="section-visualisation">
+    <div class="river-container">
+      <div id="flag-container"></div>
+      <img src="assets/left-arrow.png" id="river-speed-vector"></img>
+      <div class='river'>
+      </div>
+    </div>
+  </section>
+</main>
+  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript" src="math-service.js"></script>
 </body>
+
 </html>
