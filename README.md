@@ -52,7 +52,8 @@ docelowego. Pod uwagę brane są również dodatkowe współczynniki algorytmu:
 Wszystkie parametry są ustalane przez użytkownika.
 
 Pseudokod:
-```{tidy=FALSE, eval=FALSE, highlight=FALSE }
+```
+{tidy=FALSE, eval=FALSE, highlight=FALSE }
 najlepszy_kąt = kąt_początkowy
 
 while(ilość iteracji < maksymalna ilość iteracji)
