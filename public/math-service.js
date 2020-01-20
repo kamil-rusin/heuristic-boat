@@ -21,8 +21,8 @@ const evaluateBoatResultVector = (initialAngle) => {
   return ({
     x: resultX,
     y,
-    angle: Math.atan(-y / x),
-    length: Math.sqrt(x * x + y * y),
+    angle: Math.atan(-y / resultX),
+    length: Math.sqrt(resultX * resultX + y * y),
   });
 };
 
@@ -54,11 +54,63 @@ const objectiveFunction = (initialAngle) => {
   return evaluateBoatTripResults(initialAngle).distance;
 };
 
+//metoda na losowanie z przedziału(min= -factor, max = factor)
+const generateRandomNumber = (factor) => {
+    return (Math.random() * (Number(factor) + Number(factor)) - Number(factor));
+};
+
 // metoda algorytmu heurystycznego
 const evaluateOptimalBoatAngle = () => {
-  let m, n, o, p, q; // TODO: dodać suwaki na parametry algorytmu
+    const {iterations, agents, boatInitialAngleInRadians, neighborhoodFactor} = getParams();
+    let bestDistance, historyAngles = [], historyDistance = [], iter = 0, tempAngle, tempAgent,
+        tempDistance, forValue, tempValue,
+        factorInRadians = neighborhoodFactor*Math.PI/180;
 
-  // TODO: algorytm heurystyczny
 
-  return Math.random() * 180;
+    let bestAngle = boatInitialAngleInRadians;
+
+    while (iter < iterations) {
+        bestDistance = objectiveFunction(bestAngle);
+
+        for (let i = 0; i < agents; i++) {
+            tempAgent = Number(bestAngle) + Number(generateRandomNumber(factorInRadians));
+
+            //granice: 0 - 179 stopni
+            if (tempAgent > 3.12413936) {
+                tempAgent = 3.12413936;
+            } else if (tempAgent < 0) {
+                tempAgent = 0;
+            }
+
+            if (i === 0) {
+                forValue = objectiveFunction(tempAgent);
+            } else {
+                tempValue = objectiveFunction(tempAgent);
+                if (tempValue < forValue) {
+                    tempDistance = tempValue;
+                    tempAngle = tempAgent;
+                }
+            }
+        }
+
+        if (tempDistance < bestDistance) {
+            bestAngle = tempAngle;
+        }
+
+        historyAngles.push(parseFloat((bestAngle*180/Math.PI).toFixed(2)));
+        historyDistance.push(parseFloat(bestDistance.toFixed(2)));
+        iter++;
+    }
+    return ({
+        historyDistance: historyDistance,
+        historyAngles: historyAngles,
+        optimalAngle: historyAngles[iterations-1],
+        optimalDistance: historyDistance[iterations-1],
+    });
 };
+
+const mapAnglesToDestinations = (anglesInDegreesArray) => anglesInDegreesArray.map((angleInDegree) => {
+  const angleInRadians = angleInDegree * Math.PI / 180;
+  const {location, duration} = evaluateBoatTripResults(angleInRadians);
+  return {location, duration};
+});
